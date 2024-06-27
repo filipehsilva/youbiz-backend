@@ -6,6 +6,10 @@ let app = require('../app');
 let debug = require('debug')('node-api:server');
 let http = require('http');
 
+app.get("/health", (req, res) => {
+    res.status(200).send("This the /health route");
+  })
+
 /**
  * Get port from environment and store in Express.
  */
