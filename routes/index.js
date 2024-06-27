@@ -11,4 +11,8 @@ router.get("/health", (req, res) => {
     res.status(200).send("This the /health route");
   })
 
+  router.get("/", (req, res) => {
+    res.status(200).send("This the / route");
+  })
+
 module.exports = router;
