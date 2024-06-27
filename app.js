@@ -58,7 +58,3 @@ app.use(require("./misc/route_wrapper")(() => {
 require("./cron/expirarPagamentos");
 
 module.exports = app;
-
-app.get('/health', (req, res) => {
-    res.status(200).send('OK');
-});

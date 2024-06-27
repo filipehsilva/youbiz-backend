@@ -4,11 +4,13 @@ const knex = require('knex')({
 });
 
 const pool = mysql.createPool({
+    port: process.env.MYSQL_PORT,
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USERNAME,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
-    timezone: process.env.MYSQL_TIMEZONE
+    timezone: process.env.MYSQL_TIMEZONE,
+    ssl: { rejectUnauthorized: false }
 });
 
 const MyConnection = require("./connection");
