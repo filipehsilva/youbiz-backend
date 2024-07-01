@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "deploy": "./deploy.sh",
     "start": "nodemon bin/www",
     "debug": "node %NODE_DEBUG_OPTION% bin/www"
   },
