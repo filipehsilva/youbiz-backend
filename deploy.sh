@@ -8,4 +8,4 @@ npm install
 npm update
 
 # Iniciar o servidor
-nohup npm start &
+npm start
