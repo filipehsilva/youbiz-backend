@@ -10,9 +10,17 @@ require("./misc/async_foreach");
 const dotenv = require('dotenv');
 dotenv.config();
 
+// Configurar CORS para permitir requisições de https://plataforma.youbiz.pt
+const corsOptions = {
+    origin: process.env.CORS_ORIGIN,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // se você precisar enviar cookies ou autenticação
+    optionsSuccessStatus: 204 // para suportar navegadores mais antigos
+};
+
 let app = express();
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 let session = require('express-session');
 app.use(session({
