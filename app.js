@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const fileUpload = require("express-fileupload");
 const morgan = require('morgan');
 
@@ -10,6 +11,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 let app = express();
+
+app.use(cors());
 
 let session = require('express-session');
 app.use(session({
