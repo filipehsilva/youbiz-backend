@@ -33,8 +33,8 @@ app.use(session({
         sameSite: 'Lax'
     },
     secret: '1d37e555-085f-4044-b942-7c521a326d8e',
-    resave: true,
-    saveUninitialized: false
+    resave: false,
+    saveUninitialized: true
 }));
 
 app.use(express.json());
