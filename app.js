@@ -29,10 +29,12 @@ app.use(session({
         ttl: 3600 * 24 * 365
     }),
     cookie: {
-        sameSite: 'Lax'
+        sameSite: 'Lax',
+        secure: true
     },
     secret: '1d37e555-085f-4044-b942-7c521a326d8e',
     resave: true,
+    proxy: true,
     saveUninitialized: false
 }));
 
