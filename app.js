@@ -1,6 +1,7 @@
 const express = require('express');
 const fileUpload = require("express-fileupload");
 const morgan = require('morgan');
+const cors = require('cors');
 
 //Add custom functions
 require("./misc/async_foreach");
@@ -9,9 +10,18 @@ require("./misc/async_foreach");
 const dotenv = require('dotenv');
 dotenv.config();
 
+const corsOptions = {
+    origin: 'https://plataforma.youbiz.pt',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Permite enviar cookies e credenciais
+    optionsSuccessStatus: 204 // Para suportar navegadores mais antigos
+};
+
 let app = express();
 
 app.set('trust proxy', 1);
+
+app.use(cors(corsOptions));
 
 let session = require('express-session');
 app.use(session({
