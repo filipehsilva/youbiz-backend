@@ -25,9 +25,6 @@ app.use(cors(corsOptions));
 
 let session = require('express-session');
 app.use(session({
-    store: new (require('session-file-store')(session))({
-        ttl: 3600 * 24 * 365,
-    }),
     cookie: {
         sameSite: 'none',
         secure: true
