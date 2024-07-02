@@ -27,12 +27,10 @@ app.use(cors(corsOptions));
 let session = require('express-session');
 app.use(session({
     store: new (require('session-file-store')(session))({
-        ttl: 3600 * 24 * 365,
-        path: '/workspace/sessions'
+        ttl: 3600 * 24 * 365
     }),
     cookie: {
-        sameSite: 'none',
-        secure: true
+        sameSite: 'Lax'
     },
     secret: '1d37e555-085f-4044-b942-7c521a326d8e',
     resave: true,
