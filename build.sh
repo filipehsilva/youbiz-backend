@@ -1,13 +1,11 @@
 #!/bin/bash
 
 # Limpar cache do npm
-npm cache clean --force
+npm cache clean
 
 # Remover node_modules e package-lock.json
 rm -rf node_modules package-lock.json
 
-# Instalar pacotes novamente
-npm install --force
+npm install
 
-# Atualizar pacotes
 npm update

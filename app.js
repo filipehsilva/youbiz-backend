@@ -30,7 +30,8 @@ app.use(session({
         ttl: 3600 * 24 * 365
     }),
     cookie: {
-        secure: true
+        secure: true,
+        sameSite: 'none'
     },
     secret: '1d37e555-085f-4044-b942-7c521a326d8e',
     resave: false,
@@ -52,6 +53,12 @@ app.use(
 // Logs
 app.use(morgan('[:date[iso]] :remote-addr :method :url :status :response-time ms - :res[content-length]'));
 require('log-timestamp');
+
+app.use((req, res, next) => {
+    console.log(`Cookies recebidos: ${JSON.stringify(req.cookies)}`);
+    console.log(`Sessão atual: ${JSON.stringify(req.session)}`);
+    next();
+});
 
 app.use("/public", express.static("public"));
 
