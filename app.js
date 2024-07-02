@@ -19,7 +19,7 @@ const corsOptions = {
 
 let app = express();
 
-app.set('trust proxy', true);
+app.set('trust proxy', 1);
 
 app.use(cors(corsOptions));
 
@@ -27,7 +27,8 @@ let session = require('express-session');
 app.use(session({
     cookie: {
         sameSite: 'none',
-        secure: true
+        secure: true,
+        maxAge: 3600000
     },
     secret: '1d37e555-085f-4044-b942-7c521a326d8e',
     resave: true,
