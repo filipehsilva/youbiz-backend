@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const fileUpload = require("express-fileupload");
 const morgan = require('morgan');
-const path = require('path');
 
 //Add custom functions
 require("./misc/async_foreach");
@@ -24,16 +23,12 @@ let app = express();
 app.use(cors(corsOptions));
 
 let session = require('express-session');
-
-const sessionDir = path.join(__dirname, 'sessions');
-
 app.use(session({
     store: new (require('session-file-store')(session))({
-        path: sessionDir,
         ttl: 3600 * 24 * 365
     }),
     cookie: {
-        sameSite: 'Lax'
+        sameSite: 'none'
     },
     secret: '1d37e555-085f-4044-b942-7c521a326d8e',
     resave: true,
