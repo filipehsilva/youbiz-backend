@@ -11,6 +11,8 @@ dotenv.config();
 
 let app = express();
 
+app.set('trust proxy', 1);
+
 let session = require('express-session');
 app.use(session({
     store: new (require('session-file-store')(session))({
