@@ -2,8 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const fileUpload = require("express-fileupload");
 const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
 
-//Add custom functions
+// Add custom functions
 require("./misc/async_foreach");
 
 // Setup env variables
@@ -24,11 +26,29 @@ app.set('trust proxy', 1);
 
 app.use(cors(corsOptions));
 
-let session = require('express-session');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
+
+// Verifica se o diretório de sessões existe, caso contrário, cria
+const sessionDir = path.join(__dirname, 'sessions');
+if (!fs.existsSync(sessionDir)) {
+    console.log(`Criando diretório de sessões em ${sessionDir}`);
+    fs.mkdirSync(sessionDir, { recursive: true });
+} else {
+    console.log(`Diretório de sessões já existe em ${sessionDir}`);
+}
+
+const store = new FileStore({
+    path: sessionDir,
+    ttl: 3600 * 24 * 365,
+});
+
+store.on('error', function(error) {
+    console.log('Erro no FileStore:', error);
+});
+
 app.use(session({
-    store: new (require('session-file-store')(session))({
-        ttl: 3600 * 24 * 365
-    }),
+    store: store,
     cookie: {
         secure: true,
         sameSite: 'none'
@@ -39,11 +59,11 @@ app.use(session({
 }));
 
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(require('cookie-parser')());
 app.use(
     fileUpload({
-        limits: {fileSize: 10 * 1024 * 1024}, // 10MB
+        limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
         parseNested: true,
         safeFileNames: true,
         abortOnLimit: true
@@ -54,6 +74,7 @@ app.use(
 app.use(morgan('[:date[iso]] :remote-addr :method :url :status :response-time ms - :res[content-length]'));
 require('log-timestamp');
 
+// Middleware para log de cookies e sessão
 app.use((req, res, next) => {
     console.log(`Cookies recebidos: ${JSON.stringify(req.cookies)}`);
     console.log(`Sessão atual: ${JSON.stringify(req.session)}`);
@@ -71,7 +92,7 @@ app.use('/', require("./routes"));
 
 // catch 404 and forward to error handler
 app.use(require("./misc/route_wrapper")(() => {
-    throw {code: 404, message: "ROUTE_NOT_FOUND"};
+    throw { code: 404, message: "ROUTE_NOT_FOUND" };
 }));
 
 // Setup cron
