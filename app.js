@@ -2,8 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const fileUpload = require("express-fileupload");
 const morgan = require('morgan');
-const fs = require('fs');
-const path = require('path'); // Adicionado aqui
 
 //Add custom functions
 require("./misc/async_foreach");
@@ -25,15 +23,6 @@ let app = express();
 app.use(cors(corsOptions));
 
 let session = require('express-session');
-
-const FileStore = require('session-file-store')(session);
-
-// Verifica se o diretório de sessões existe, caso contrário, cria
-const sessionDir = path.join(__dirname, 'sessions');
-if (!fs.existsSync(sessionDir)) {
-    fs.mkdirSync(sessionDir, { recursive: true });
-}
-
 app.use(session({
     store: new (require('session-file-store')(session))({
         ttl: 3600 * 24 * 365
