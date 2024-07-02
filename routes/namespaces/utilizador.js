@@ -51,9 +51,17 @@ router.post('/login',
 
         req.session.user_id = utilizador.id;
         req.session.user_type = utilizador.tipo;
-        req.session.user_site = utilizador.site;
+        req.session.user_site = utilizador.site;       
 
-        return {utilizador: await obterUtilizador(req.db, utilizador.id)};
+        // Salva a sessão explicitamente
+        req.session.save((err) => {
+            if (err) {
+                console.error('Erro ao salvar a sessão:', err);
+                return res.status(500).json({ message: 'Erro ao salvar a sessão.' });
+            }
+        });
+
+        return {utilizador: await obterUtilizador(req.db, utilizador.id)};     
     }));
 
 /**
